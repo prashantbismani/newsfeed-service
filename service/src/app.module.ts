@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { NewsControllerController } from './newsfeed-controller/news-controller.controller';
-import { NewsServiceService } from './newsfeed-service/news-service.service';
 import { NewsFeedInterfaceSchema } from './newsfeed-interface/newsfeed.interface';
+import { ScheduledTaskService } from './scheduled-task-service/scheduled-task.service';
+import { NewsScraperService } from './news-scraper-service/news-scraper.service';
+import { NewsFeedService } from './newsfeed-service/news-service.service';
 
 @Module({
   imports: [
@@ -17,8 +20,14 @@ import { NewsFeedInterfaceSchema } from './newsfeed-interface/newsfeed.interface
     MongooseModule.forFeature([
       { name: 'NewsFeedInterface', schema: NewsFeedInterfaceSchema },
     ]),
+    ScheduleModule.forRoot(),
   ],
   controllers: [AppController, NewsControllerController],
-  providers: [AppService, NewsServiceService],
+  providers: [
+    AppService,
+    ScheduledTaskService,
+    NewsScraperService,
+    NewsFeedService,
+  ],
 })
 export class AppModule {}
