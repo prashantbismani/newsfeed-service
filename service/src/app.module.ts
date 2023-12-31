@@ -1,3 +1,4 @@
+import * as dotenv from 'dotenv';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -8,15 +9,12 @@ import { NewsFeedInterfaceSchema } from './newsfeed-interface/newsfeed.interface
 import { ScheduledTaskService } from './scheduled-task-service/scheduled-task.service';
 import { NewsScraperService } from './news-scraper-service/news-scraper.service';
 import { NewsFeedService } from './newsfeed-service/news-service.service';
-
+dotenv.config();
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      'mongodb+srv://prashantbismani:TtnBDBBsWzHJDJN4@personalprojects.g9qxpqo.mongodb.net/?retryWrites=true&w=majority',
-      {
-        dbName: 'test',
-      },
-    ),
+    MongooseModule.forRoot(process.env.MONGO_URI, {
+      dbName: 'test',
+    }),
     MongooseModule.forFeature([
       { name: 'NewsFeedInterface', schema: NewsFeedInterfaceSchema },
     ]),
